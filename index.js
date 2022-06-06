@@ -18,8 +18,8 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
-app.post("/api/users", function (req, res){
-  res.json( inputUser({username : req.body.username}))
+app.post("/api/users", function (req, res) {
+ inputUser({username : req.body.username}, res)
 })
 
 app.post("/api/users/:_id/exercises", function (req, res){
@@ -30,7 +30,7 @@ app.post("/api/users/:_id/exercises", function (req, res){
     date :  req.body.date
   }
     
-  res.json(inputExercise(data))
+  inputExercise(data, res)
 })
 
 const listener = app.listen(process.env.PORT || 3000, () => {
