@@ -54,7 +54,7 @@ function inputExercise(data, res){
                 username : userFound.username,
                 description : exercise.description,
                 duration : exercise.duration,
-                date : new Date(l.date).toDateString(),
+                date : new Date(exercise.date).toDateString(),
                 _id :  data.id
             })
         });
