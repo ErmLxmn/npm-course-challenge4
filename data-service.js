@@ -95,7 +95,7 @@ function getUsersLogs(data, res){
                     username: userFound.username,
                     count: execLogs.length,
                     _id: userFound.id,
-                    log: execLogs.map((l) =>{ return {
+                    log: execLogs.map(function(l) { return {
                         description : l.description,
                         duration : l.duration,
                         date : new Date(l.date).toDateString()
