@@ -95,7 +95,7 @@ function getUsersLogs(data, res){
                        date : new Date(items.date).toString().substring(0,15)
                     }
                     })
-                    for(let i = 0 in logs){
+                    for(let i in logs){
                         console.log(typeof logs[i].date)
                     }
                     if(logs){
