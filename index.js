@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const connection = require('./mongodb.js');
 const bodyParser = require('body-parser');
 const {inputUser, inputExercise} = require('./data-service.js');
+const mySecret = process.env['MONGO_URI']
 
 connection.START_CONNECTION();
 
