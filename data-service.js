@@ -54,7 +54,7 @@ function inputExercise(data, res){
                 username : userFound.username,
                 description : saveExercise.description,
                 duration : saveExercise.duration,
-                date : saveExercise.date.toDateString(),
+                date : new Date(exercise.date).toString().substring(0,15),
                 _id :  data.id
             })
         });
@@ -76,10 +76,13 @@ function getUsersLogs(data, res){
     let from = new Date(data.from)
     let to = new Date(data.to)
 
-    if(isNaN(Date.parse(from))){
+    if(isNaN(Date.parse(from)) && !isNaN(Date.parse(to))){
         from = new Date(0);
     }
-    if(isNaN(Date.parse(to))){
+    else if(isNaN(Date.parse(to)) && !isNaN(Date.parse(from))){
+        to = new Date();
+    }else if(!isNaN(Date.parse(to)) && !isNaN(Date.parse(from))){
+        from = new Date(0);
         to = new Date();
     }
 
