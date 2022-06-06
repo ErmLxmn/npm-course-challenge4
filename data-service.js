@@ -94,10 +94,10 @@ function getUsersLogs(data, res){
                         username: userFound.username,
                         count: execLogs.length,
                         _id: data.id,
-                        log: execLogs.map(items => { return {
-                            description : items.description,
-                            duration : items.duration,
-                            date : new Date(Date.parse(items.date)).toDateString()
+                        log: execLogs.map(l => { return {
+                            description : l.description,
+                            duration : l.duration,
+                            date : l.date.toDateString()
                          }
                          })
                     })
