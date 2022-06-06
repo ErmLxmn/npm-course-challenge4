@@ -95,7 +95,9 @@ function getUsersLogs(data, res){
                        date : new Date(items.date).toString().substring(0,15)
                     }
                     })
-                    console.log(logs)
+                    for(let i = 0 in logs){
+                        console.log(typeof logs[i].date)
+                    }
                     if(logs){
                     return res.json({
                         username: userFound.username,
