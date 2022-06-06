@@ -55,7 +55,7 @@ function inputExercise(data, res){
                 username : userFound.username,
                 description : exercise.description,
                 duration : exercise.duration,
-                date : exercise.date.toString().substring(0 , 15),
+                date : exercise.date.toDateString(),
                 _id :  data.id
             })
         });
@@ -95,6 +95,7 @@ function getUsersLogs(data, res){
                                 date : new Date(items.date).toDateString()
                         }
                     })
+                    console.log(logs)
                     if(logs){
                     return res.json({
                         username: userFound.username,
