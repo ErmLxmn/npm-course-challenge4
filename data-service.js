@@ -100,7 +100,7 @@ function getUsersLogs(data, res){
                                 date : new Date(items.date).toString().substring(0, 15)
                         }
                     })
-                    
+                    console.log(logs)
                     return res.json({
                         username: userFound.username,
                         count: execLogs.length,
