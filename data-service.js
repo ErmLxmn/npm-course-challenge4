@@ -90,7 +90,7 @@ function getUsersLogs(data, res){
             .limit(limit)
             .exec(function (err, execLogs) {
             if(execLogs){
-                console.log(from , to, userFound.id)
+                console.log(from , to, userFound.id, execLogs)
                 return res.json({
                     username: userFound.username,
                     count: execLogs.length,
