@@ -92,7 +92,7 @@ function getUsersLogs(data, res){
                     let logs = execLogs.map(items => {
                         return {description : items.description,
                                 duration : items.duration,
-                                date : new Date(items.date).toDateString()
+                                date : items.date.toDateString()
                         }
                     })
                     console.log(logs)
