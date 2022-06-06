@@ -78,16 +78,16 @@ function getUsersLogs(data, res){
     let to = new Date(data.to)
 
     if(isNaN(Date.parse(from))){
-        from = new Date(0);
+        from = moment(new Date(0)).utcOffset("+08:00");
     }
 
     if(isNaN(Date.parse(to))){
-        to = new Date();
+        to = moment(l.date).utcOffset("+08:00");
     }
 
     if(isNaN(Date.parse(to)) && isNaN(Date.parse(from))){
-        to = new Date();
-        from = new Date(0);
+        to = moment(l.date).utcOffset("+08:00");
+        from = moment(new Date(0)).utcOffset("+08:00");
     }
 
     USER.findById({_id : data.id}, function (err, userFound){
