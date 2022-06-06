@@ -50,12 +50,11 @@ function inputExercise(data, res){
             exercise.date = new Date(exercise.date).toDateString();
 
         exercise.save(function (err, saveExercise){
-
             return res.json({
                 username : userFound.username,
                 description : exercise.description,
                 duration : exercise.duration,
-                date : exercise.date.toDateString(),
+                date : new Date(l.date).toDateString(),
                 _id :  data.id
             })
         });
@@ -87,19 +86,19 @@ function getUsersLogs(data, res){
     USER.findById({_id : data.id}, function (err, userFound){
         let limit = parseInt(data.limit);
         if(userFound){
-            EXERCISE.find({eUid : data.id, date : {$gte : from , $lte : to }}).limit(limit)
+            EXERCISE.find({eUid : data.id, date : {$gte : from , $lte : to }})
+            .limit(limit)
             .exec(function (err, execLogs) {
             if(execLogs){
                 return res.json({
                     username: userFound.username,
                     count: execLogs.length,
                     _id: data.id,
-                    log: execLogs.map(l => { return {
+                    log: execLogs.map((l) =>{ return {
                         description : l.description,
                         duration : l.duration,
-                        date : l.date.toDateString()
-                     }
-                     })
+                        date : new Date(l.date).toDateString()
+                     }})
                      
                 })
             }
