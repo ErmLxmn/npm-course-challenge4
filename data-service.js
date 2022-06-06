@@ -73,7 +73,7 @@ function getAllUsers(res){
 }
 
 function getUsersLogs(data, res){
-    let limit = parseInt(data.limit);
+   
     let from = new Date(data.from)
     let to = new Date(data.to)
 
@@ -85,6 +85,8 @@ function getUsersLogs(data, res){
     }
 
     USER.findById({_id : data.id}, function (err, userFound){
+        let limit = parseInt(data.limit);
+        console.log(typeof limit , limit, typeof data.limit , data.limit)
         if(userFound){
 
             EXERCISE.find({eUid : data.id}, function (err, execLogs){
@@ -97,9 +99,6 @@ function getUsersLogs(data, res){
                                 date : new Date(items.date).toString().substring(0, 15)
                         }
                     })
-                    if(limit)
-                       logs = logs.slice(0, limit)
-
                     console.log(logs)
                     if(logs){
                     return res.json({
@@ -110,7 +109,7 @@ function getUsersLogs(data, res){
                     })
                     }
         }
-        })
+        }).limit(limit)
         
         
         
