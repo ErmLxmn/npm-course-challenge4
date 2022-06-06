@@ -92,7 +92,6 @@ function getUsersLogs(data, res){
                 .exec( function (err, execLogs){
                     if(execLogs){
                     let logs = execLogs.filter(items =>{
-                        console.log(new Date(items.date).getTime(), from.getTime(),to.getTime())
                         return new Date(items.date).getTime() >= from.getTime() &&  items.date <= to.getTime()
                     }).map(items => {
                         return {description : items.description,
