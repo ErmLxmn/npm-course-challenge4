@@ -5,11 +5,12 @@ let exerciseSchema = new mongoose.Schema({
     description: {type: String , require: true},
     duration: {type: Number , require: true},
     date: String,
+    eUid: String,
 })
 
 let userSchema = new mongoose.Schema({
     username : {type: String, require: true},
-    logs : [exerciseSchema]
+    log : [exerciseSchema]
 })
 
 

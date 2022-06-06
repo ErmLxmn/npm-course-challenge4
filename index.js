@@ -4,7 +4,12 @@ const app = express();
 const mongoose = require('mongoose');
 const connection = require('./mongodb.js');
 const bodyParser = require('body-parser');
-const {inputUser, inputExercise} = require('./data-service.js');
+const {inputUser
+      ,inputExercise
+      ,getAllUsers
+      ,getUsersLogs
+      ,deleteAllUsers
+      ,deleteAllExercises} = require('./data-service.js');
 const mySecret = process.env['MONGO_URI']
 
 connection.START_CONNECTION();
@@ -30,7 +35,26 @@ app.post("/api/users/:_id/exercises", function (req, res){
     date :  req.body.date
   }
     
-  inputExercise(data, res)
+  inputExercise(data, res);
+})
+
+app.get("/api/users", function (req, res) {
+  getAllUsers(res);
+})
+
+app.get("/api/users/:_id/logs", function (req, res) {
+  let data = {
+    id : req.params._id
+  }
+  getUsersLogs(data, res);
+})
+
+app.get("/api/users/delete", function (req, res) {
+  deleteAllUsers(res);
+})
+
+app.get("/api/exercises/delete", function (req, res) {
+  deleteAllExercises(res);
 })
 
 const listener = app.listen(process.env.PORT || 3000, () => {
