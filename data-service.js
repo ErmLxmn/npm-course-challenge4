@@ -89,29 +89,18 @@ function getUsersLogs(data, res){
         if(userFound){
             EXERCISE.find({eUid : data.id, date : {$gte : from , $lte : to }}, function (err, execLogs){
                     if(execLogs){
-                    let logs = execLogs.map(items => { return {
-                       description : items.description,
-                       duration : items.duration,
-                       date : new Date(items.date).toString().substring(0,15)
-                    }
-                    })
-                    for(let i in logs){
-                        console.log(typeof logs[i].date)
-                    }
-                    if(logs){
+
                     return res.json({
                         username: userFound.username,
                         count: execLogs.length,
                         _id: data.id,
-                        log: logs
+                        log: execLogs.map(items => { return {
+                            description : items.description,
+                            duration : items.duration,
+                            date : new Date(Date.parse(items.date)).toDateString()
+                         }
+                         })
                     })
-                    }else{
-                        return res.json({
-                            username: userFound.username,
-                            count: execLogs.length,
-                            _id: data.id
-                        })
-                    }
         }
         }).limit(limit)
         
