@@ -89,11 +89,11 @@ function getUsersLogs(data, res){
         if(userFound){
             EXERCISE.find({eUid : data.id, date : {$gte : from , $lte : to }}, function (err, execLogs){
                     if(execLogs){
-                    let logs = execLogs.map(items => {
-                        return {description : items.description,
-                                duration : items.duration,
-                                date : items.date.toDateString()
-                        }
+                    let logs = execLogs.map(items => { return {
+                       description : items.description,
+                       duration : items.duration,
+                       date : new Date(items.date).toString().substring(0,15)
+                    }
                     })
                     console.log(logs)
                     if(logs){
