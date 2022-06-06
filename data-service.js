@@ -76,15 +76,11 @@ function getUsersLogs(data, res){
     let from = new Date(data.from)
     let to = new Date(data.to)
 
-    if(isNaN(Date.parse(from)) && !isNaN(Date.parse(to))){
+    if(isNaN(Date.parse(from))){
         from = new Date(0);
     }
-    else if(isNaN(Date.parse(to)) && !isNaN(Date.parse(from))){
+    if(isNaN(Date.parse(to))){
         to = new Date();
-    }else if(!isNaN(Date.parse(to)) && !isNaN(Date.parse(from))){
-        from = new Date(0);
-        to = new Date();
-    }
 
     USER.findById({_id : data.id}, function (err, userFound){
         let limit = parseInt(data.limit);
