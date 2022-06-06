@@ -91,18 +91,21 @@ function getUsersLogs(data, res){
             .limit(limit)
             .exec(function (err, execLogs) {
             if(execLogs){
-                console.log(from , to, userFound.id, execLogs)
-                let logs = execLogs.map(function(l) { return {
+                Promise.all(execLogs.map(function(l) { return {
                     description : l.description,
                     duration : l.duration,
                     date : new Date(l.date).toString().substring(0,15)
-                 }})
-                return res.json({
-                    username: userFound.username,
-                    count: execLogs.length,
-                    _id: userFound.id,
-                    log: logs
-                })
+                 }})).then( function (result){
+                    console.log(result)
+                    return res.json({
+                        username: userFound.username,
+                        count: execLogs.length,
+                        _id: userFound.id,
+                        log: result
+                    })
+                 })
+            
+                 
             }
             })
         }
