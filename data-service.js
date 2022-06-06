@@ -45,9 +45,9 @@ function inputExercise(data, res){
         })
         
         if(isNaN(Date.parse(exercise.date)))
-            exercise.date =  new Date();
+            exercise.date =  new Date().toDateString();
         else
-            exercise.date = new Date(exercise.date);
+            exercise.date = new Date(exercise.date).toDateString();
 
         exercise.save(function (err, saveExercise){
 
