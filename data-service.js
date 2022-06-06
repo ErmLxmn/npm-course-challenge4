@@ -45,16 +45,16 @@ function inputExercise(data, res){
         })
         
         if(isNaN(Date.parse(exercise.date)))
-            exercise.date =  new Date().toDateString();
+            exercise.date =  new Date();
         else
-            exercise.date = new Date(exercise.date).toDateString();
+            exercise.date = new Date(exercise.date);
 
         exercise.save(function (err, saveExercise){
             return res.json({
                 username : userFound.username,
-                description : exercise.description,
-                duration : exercise.duration,
-                date : exercise.date.toDateString(),
+                description : saveExercise.description,
+                duration : saveExercise.duration,
+                date : saveExercise.date.toDateString(),
                 _id :  data.id
             })
         });
@@ -98,7 +98,7 @@ function getUsersLogs(data, res){
                     log: execLogs.map(function(l) { return {
                         description : l.description,
                         duration : l.duration,
-                        date : new Date(l.date).toDateString()
+                        date : l.date.toDateString()
                      }})
                      
                 })
