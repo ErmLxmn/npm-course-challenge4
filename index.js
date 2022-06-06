@@ -48,7 +48,7 @@ app.get("/api/users/:_id/logs", function (req, res) {
     from : req.query.from,
     to : req.query.to,
     limit : req.query.limit
-  }
+  };
   getUsersLogs(data, res);
 })
 

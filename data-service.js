@@ -85,26 +85,29 @@ function getUsersLogs(data, res){
 
     USER.findById({_id : data.id}, function (err, userFound){
         let limit = parseInt(data.limit);
-        if(userFound){
+        if(!err && !userFound)
+            return res.send("No User Found");
+        else{
             EXERCISE.find({eUid : data.id, date : {$gte : from , $lte : to }})
             .limit(limit)
             .exec(function (err, execLogs) {
             if(execLogs){
                 console.log(from , to, userFound.id, execLogs)
+                let logs = execLogs.map(function(l) { return {
+                    description : l.description,
+                    duration : l.duration,
+                    date : new Date(l.date).toString().substring(0,15)
+                 }})
                 return res.json({
                     username: userFound.username,
                     count: execLogs.length,
                     _id: userFound.id,
-                    log: execLogs.map(function(l) { return {
-                        description : l.description,
-                        duration : l.duration,
-                        date : l.date.toDateString()
-                     }})
-                     
+                    log: logs
                 })
             }
             })
         }
+        
     })
     
 }
