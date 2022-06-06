@@ -99,7 +99,7 @@ function getUsersLogs(data, res){
                                 date : new Date(items.date).toString().substring(0, 15)
                         }
                     })
-                    console.log(logs)
+                    
                     if(logs){
                     return res.json({
                         username: userFound.username,
@@ -107,6 +107,12 @@ function getUsersLogs(data, res){
                         _id: data.id,
                         log: logs
                     })
+                    }else{
+                        return res.json({
+                            username: userFound.username,
+                            count: execLogs.length,
+                            _id: data.id
+                        })
                     }
         }
         }).limit(limit)
