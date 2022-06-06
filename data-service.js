@@ -13,7 +13,7 @@ app.use(cors())
 const USER = new mongoose.model("User", userSchema);
 const EXERCISE = new mongoose.model("Exercise", exerciseSchema);
 
- function inputUser(data, callback) {
+ function inputUser(data) {
     let user = new USER({
         username: data.username
     })
@@ -24,16 +24,16 @@ const EXERCISE = new mongoose.model("Exercise", exerciseSchema);
             user.save(function (err, savedUser){
                 if(err) return console.error(err);
                 
-                callback({username: savedUser.username, _id : savedUser.id})
+                return {username: savedUser.username, _id : savedUser.id}
             })
         }else{
-            callback({username: userFound.username, _id : userFound.id})
+            return {username: userFound.username, _id : userFound.id}
         }
     })
     
 }
 
-function inputExercise(data, callback){
+function inputExercise(data){
 
     USER.findById({_id : data.id}, function (err, userFound){
 
@@ -48,13 +48,13 @@ function inputExercise(data, callback){
         else
             exercise.date = new Date(exercise.date).substring(0 , 15);
 
-        callback({
+        return {
             username : userFound.username,
             description : exercise.description,
             duration : exercise.duration,
             date : exercise.date,
             _id : userFound.id
-        })
+        }
     })
 
 }

@@ -19,9 +19,7 @@ app.get('/', (req, res) => {
 });
 
 app.post("/api/users", function (req, res){
-  inputUser({username : req.body.username}, function(response){
-      res.json(response)
-  });
+  res.json( inputUser({username : req.body.username}))
 })
 
 app.post("/api/users/:_id/exercises", function (req, res){
@@ -31,10 +29,8 @@ app.post("/api/users/:_id/exercises", function (req, res){
     duration :  req.body.duration,
     date :  req.body.date
   }
-  
-  inputExercise(data, function (response){
-    res.json(response)
-  });
+    
+  res.json(inputExercise(data))
 })
 
 const listener = app.listen(process.env.PORT || 3000, () => {
