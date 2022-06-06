@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const {userSchema, exerciseSchema} = require('./schema.js');
+const moment = require('moment');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -54,7 +55,7 @@ function inputExercise(data, res){
                 username : userFound.username,
                 description : saveExercise.description,
                 duration : saveExercise.duration,
-                date : new Date(exercise.date).toString().substring(0,15),
+                date : moment(exercise.date).utcOffset("+08:00").format('ddd MMM DD YYYY'),
                 _id :  data.id
             })
         });
@@ -94,7 +95,7 @@ function getUsersLogs(data, res){
                 Promise.all(execLogs.map(function(l) { return {
                     description : l.description,
                     duration : l.duration,
-                    date : new Date(l.date).toString().substring(0,15)
+                    date : moment(l.date).utcOffset("+08:00").format('ddd MMM DD YYYY')
                  }})).then( function (result){
                     console.log(result)
                     return res.json({
