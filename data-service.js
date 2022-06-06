@@ -77,22 +77,20 @@ function getUsersLogs(data, res){
     let from = new Date(data.from)
     let to = new Date(data.to)
 
+    if(isNaN(Date.parse(from))){
+        from = new Date(0);
+    }
+    if(isNaN(Date.parse(to))){
+        to = new Date();
+    }
+
     USER.findById({_id : data.id}, function (err, userFound){
         if(userFound){
-            let query;
-            if(!isNaN(Date.parse(from)) && !isNaN(Date.parse(to)))
-                query = EXERCISE.find({eUid : data.id, date : {$gte : from ,$lte : to }})
-            else if(!isNaN(Date.parse(from)) && isNaN(Date.parse(to)))
-                query = EXERCISE.find({eUid : data.id, date : {$gte : from}})
-            else if(!isNaN(Date.parse(from)) && isNaN(Date.parse(to)))
-                query = EXERCISE.find({eUid : data.id, date : {$lte : to}})
-            else 
-                query = EXERCISE.find({eUid : data.id})
-
-               
-                query.limit(limit)
-                query.select({description : 1,  duration : 1, date : 1 , _id : 0})
-                query.exec( function (err, execLogs){
+            
+            EXERCISE.find({eUid : data.id, date:{ $gte: from , $lte : to}})
+                .limit(limit)
+                .select({description : 1,  duration : 1, date : 1 , _id : 0})
+                .exec( function (err, execLogs){
                     if(execLogs){
                     let logs = execLogs.map(items => {
                         return {description : items.description,
@@ -100,6 +98,7 @@ function getUsersLogs(data, res){
                                 date : new Date(items.date).toString().substring(0, 15)
                         }
                     })
+
                     return res.json({
                         username: userFound.username,
                         count: execLogs.length,
