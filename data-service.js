@@ -86,10 +86,9 @@ function getUsersLogs(data, res){
 
     USER.findById({_id : data.id}, function (err, userFound){
         if(userFound){
-            
+
             EXERCISE.find({eUid : data.id, date:{ $gte: from , $lte : to}})
                 .limit(limit)
-                .select({description : 1,  duration : 1, date : 1 , _id : 0})
                 .exec( function (err, execLogs){
                     if(execLogs){
                     let logs = execLogs.map(items => {
