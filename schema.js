@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 let exerciseSchema = new mongoose.Schema({
     description: {type: String , require: true},
     duration: {type: Number , require: true},
-    date: Date,
+    date: String,
     eUid: String,
 })
 
