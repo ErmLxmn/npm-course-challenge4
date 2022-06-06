@@ -45,18 +45,17 @@ function inputExercise(data, res){
         })
         
         if(isNaN(Date.parse(exercise.date)))
-            exercise.date =  new Date().toString().substring(0 , 15);
-        else{
-            exercise.date = new Date(exercise.date).toString().substring(0 , 15);
-        }
+            exercise.date =  new Date();
+        else
+            exercise.date = new Date(exercise.date);
 
         exercise.save(function (err, saveExercise){
-            
+
             return res.json({
                 username : userFound.username,
                 description : exercise.description,
                 duration : exercise.duration,
-                date : exercise.date,
+                date : exercise.date.toString().substring(0 , 15),
                 _id :  data.id
             })
         });
@@ -66,38 +65,54 @@ function inputExercise(data, res){
 }
 
 function getAllUsers(res){
-    USER.find({}, function (err, userFound){
-        let usersList = [];
-        usersList = userFound.map(u => {
-            return {username : u.username, _id: u._id};
+    USER.find({})
+        .select('username _id')
+        .exec(function (err, usersList){
+            return res.json(usersList)
         })
-        return res.json(usersList)
-    })
 }
 
 function getUsersLogs(data, res){
+    let limit = parseInt(data.limit);
+    let from = new Date(data.from)
+    let to = new Date(data.to)
 
     USER.findById({_id : data.id}, function (err, userFound){
         if(userFound){
-        EXERCISE.find({eUid : data.id}, function (err, logsFound){
+            let query;
+            if(!isNaN(Date.parse(from)) && !isNaN(Date.parse(to)))
+                query = EXERCISE.find({eUid : data.id, date : {$gte : from ,$lte : to }})
+            else if(!isNaN(Date.parse(from)) && isNaN(Date.parse(to)))
+                query = EXERCISE.find({eUid : data.id, date : {$gte : from}})
+            else if(!isNaN(Date.parse(from)) && isNaN(Date.parse(to)))
+                query = EXERCISE.find({eUid : data.id, date : {$lte : to}})
+            else 
+                query = EXERCISE.find({eUid : data.id})
 
-            let logs = logsFound.map(l => {
-
-                return {
-                    description : l.description,
-                    duration : l.duration,
-                    date : l.date,
-                }
-            })
-            if(logsFound){
-                return res.json({
-                    username: userFound.username,
-                    count: logsFound.length,
-                    _id: data.id,
-                    log: logs
-                })
-            }
+               
+                query.limit(limit)
+                query.select({description : 1,  duration : 1, date : 1 , _id : 0})
+                query.exec( function (err, execLogs){
+                    if(execLogs){
+                    let logs = execLogs.map(items => {
+                        return {description : items.description,
+                                duration : items.duration,
+                                date : new Date(items.date).toString().substring(0, 15)
+                        }
+                    })
+                    return res.json({
+                        username: userFound.username,
+                        count: execLogs.length,
+                        _id: data.id,
+                        log: logs
+                    })
+        }
         })
+        
+        
+        
+       
+
     }
     })
     
