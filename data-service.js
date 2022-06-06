@@ -87,17 +87,20 @@ function getUsersLogs(data, res){
     USER.findById({_id : data.id}, function (err, userFound){
         if(userFound){
 
-            EXERCISE.find({eUid : data.id, date:{ $gte: from , $lte : to}})
+            EXERCISE.find({eUid : data.id})
                 .limit(limit)
                 .exec( function (err, execLogs){
                     if(execLogs){
-                    let logs = execLogs.map(items => {
+                    let logs = execLogs.filter(items =>{
+                        console.log(new Date(items.date).getTime(), from.getTime(),to.getTime())
+                        return new Date(items.date).getTime() >= from.getTime() &&  items.date <= to.getTime()
+                    }).map(items => {
                         return {description : items.description,
                                 duration : items.duration,
                                 date : new Date(items.date).toString().substring(0, 15)
                         }
                     })
-
+                    
                     return res.json({
                         username: userFound.username,
                         count: execLogs.length,
