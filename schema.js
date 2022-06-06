@@ -9,8 +9,7 @@ let exerciseSchema = new mongoose.Schema({
 })
 
 let userSchema = new mongoose.Schema({
-    username : {type: String, require: true},
-    log : [exerciseSchema]
+    username : {type: String, require: true}
 })
 
 
