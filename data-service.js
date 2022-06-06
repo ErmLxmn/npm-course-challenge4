@@ -90,10 +90,11 @@ function getUsersLogs(data, res){
             .limit(limit)
             .exec(function (err, execLogs) {
             if(execLogs){
+                console.log(from , to, userFound.id)
                 return res.json({
                     username: userFound.username,
                     count: execLogs.length,
-                    _id: data.id,
+                    _id: userFound.id,
                     log: execLogs.map((l) =>{ return {
                         description : l.description,
                         duration : l.duration,
