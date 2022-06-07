@@ -76,7 +76,7 @@ function getUsersLogs(data, res){
    
     let from = new Date(data.from)
     let to = new Date(data.to)
-
+    let response = {};
     if(isNaN(Date.parse(from))){
         from = moment(new Date(0)).utcOffset("+08:00");
     }
@@ -104,14 +104,14 @@ function getUsersLogs(data, res){
                     duration : l.duration,
                     date : moment(l.date).utcOffset("+08:00").format('ddd MMM DD YYYY')
                  }})).then( function (result){
-                    let response = {
+                     response = {
                         username: userFound.username,
                         count: parseInt(execLogs.length),
                         _id: userFound.id,
                         log: result
                     }
-                    console.log(response)
-                    return res.json(response)
+
+                    
                  })
             
                  
@@ -120,6 +120,8 @@ function getUsersLogs(data, res){
         }
         
     })
+    console.log(response)
+    return res.json(response)
     
 }
 
