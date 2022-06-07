@@ -49,7 +49,10 @@ app.get("/api/users/:_id/logs", function (req, res) {
     to : req.query.to,
     limit : req.query.limit
   };
-  getUsersLogs(data, res);
+  getUsersLogs(data, function (response){
+      console.log(response)
+      res.json(response)
+  });
 })
 
 app.get("/api/users/delete", function (req, res) {

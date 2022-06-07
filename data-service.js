@@ -72,7 +72,7 @@ function getAllUsers(res){
         })
 }
 
-function getUsersLogs(data, res){
+function getUsersLogs(data, callback){
    
     let from = new Date(data.from)
     let to = new Date(data.to)
@@ -110,7 +110,7 @@ function getUsersLogs(data, res){
                         _id: userFound.id,
                         log: result
                     }
-
+                    return callback(response)
                     
                  })
             
@@ -120,8 +120,7 @@ function getUsersLogs(data, res){
         }
         
     })
-    console.log(response)
-    return res.json(response)
+    
     
 }
 
