@@ -72,7 +72,7 @@ function getAllUsers(res){
         })
 }
 
-function getUsersLogs(data, callback){
+function getUsersLogs(data, res){
     let fromDateData = new Date(data.from)
     let toDateData = new Date(data.to)
     let from =  new Date(moment(fromDateData).utcOffset("+08:00"))
