@@ -104,13 +104,14 @@ function getUsersLogs(data, res){
                     duration : l.duration,
                     date : moment(l.date).utcOffset("+08:00").format('ddd MMM DD YYYY')
                  }})).then( function (result){
-                    console.log(result)
-                    return res.json({
+                    let response = {
                         username: userFound.username,
-                        count: execLogs.length,
+                        count: parseInt(execLogs.length),
                         _id: userFound.id,
                         log: result
-                    })
+                    }
+                    console.log(response)
+                    return res.json(response)
                  })
             
                  
