@@ -73,25 +73,36 @@ function getAllUsers(res){
 }
 
 function getUsersLogs(data, callback){
-   
-    let from = new Date(data.from)
-    let to = new Date(data.to)
+    let fromDateData = new Date(data.from)
+    let toDateData = new Date(data.to)
+    let from =  new Date(moment(fromDateData).utcOffset("+08:00"))
+    let to = new Date(moment(toDateData).utcOffset("+08:00"))
     let response = {};
+    let limit = parseInt(data.limit);
+
+    if(!limit){
+        limit = 100;
+    }
+    
     if(isNaN(Date.parse(from))){
-        from = moment(new Date(0)).utcOffset("+08:00");
+        let fromDate = new Date(0);
+        from = new Date(moment(fromDate).utcOffset("+08:00"))
     }
 
     if(isNaN(Date.parse(to))){
-        to = moment().utcOffset("+08:00");
+       let toDate = new Date();
+        to = new Date(moment(toDate).utcOffset("+08:00"))
     }
 
     if(isNaN(Date.parse(to)) && isNaN(Date.parse(from))){
-        to = moment().utcOffset("+08:00");
-        from = moment(new Date(0)).utcOffset("+08:00");
+       let fromDate = new Date(0);
+        from = new Date(moment(fromDate).utcOffset("+08:00"))
+       let toDate = new Date();
+        to = new Date(moment(toDate).utcOffset("+08:00"))
     }
 
     USER.findById({_id : data.id}, function (err, userFound){
-        let limit = parseInt(data.limit);
+        console.log(limit , from.toDateString(), to.toDateString())
         if(!err && !userFound)
             return res.send("No User Found");
         else{
@@ -99,6 +110,7 @@ function getUsersLogs(data, callback){
             .limit(limit)
             .exec(function (err, execLogs) {
             if(execLogs){
+              
                 Promise.all(execLogs.map(function(l) { return {
                     description : l.description,
                     duration : l.duration,
