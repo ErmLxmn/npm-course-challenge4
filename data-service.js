@@ -122,7 +122,7 @@ function getUsersLogs(data, res){
                         _id: userFound.id,
                         log: result
                     }
-                    return callback(response)
+                    return res.json(response)
                     
                  })
             
