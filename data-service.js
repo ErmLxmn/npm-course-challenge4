@@ -82,11 +82,11 @@ function getUsersLogs(data, res){
     }
 
     if(isNaN(Date.parse(to))){
-        to = moment(l.date).utcOffset("+08:00");
+        to = moment().utcOffset("+08:00");
     }
 
     if(isNaN(Date.parse(to)) && isNaN(Date.parse(from))){
-        to = moment(l.date).utcOffset("+08:00");
+        to = moment().utcOffset("+08:00");
         from = moment(new Date(0)).utcOffset("+08:00");
     }
 
